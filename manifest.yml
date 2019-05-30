@@ -2,9 +2,9 @@
 applications:
 - instances: 1
   timeout: 180
-  name: DWFBInvoiceAPI
+  name: provider-invoice-api
   buildpack: sdk-for-nodejs
   command: npm start
   memory: 256MB
-  domain: mybluemix.net
-  host: dw-fb-invoice-api
+  domain: dallas.wakemanco.com
+  host: provider-invoice-api
