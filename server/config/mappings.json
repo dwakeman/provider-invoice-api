@@ -1,0 +1,8 @@
+{
+    "ibp-connection-profile": {
+        "searchPatterns": [
+            "user-provided:ibp-connection-profile:credentials",
+            "file:/vcap-local.json" 
+        ]
+    }
+}

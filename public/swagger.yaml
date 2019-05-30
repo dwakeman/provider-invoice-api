@@ -1,0 +1,288 @@
+swagger: '2.0'
+
+info:
+  version: "1.0.0"
+  title: Provider Invoice Reconciliation API
+
+consumes:
+  - text/plain
+  - application/json
+
+produces:
+  - application/json
+
+paths:
+
+  /invoices:
+    get:
+      operationId: getInvoices
+      tags:
+        - Get All Invoices
+      description: Get all invoices in the ledger
+      responses:
+        200:
+          description: All invoices
+          schema:
+            $ref: "#/definitions/InvoicesResponse"
+
+  /openInvoices:
+    get:
+      operationId: openInvoices
+      tags:
+        - Open Invoices
+      description: Get all open invoices in the ledger
+      responses:
+        200:
+          description: All invoices
+          schema:
+            $ref: "#/definitions/InvoicesResponse"
+
+  /getInvoice:
+    get:
+      operationId: getInvoice
+      parameters:
+      - name: "invoiceNo"
+        in: query
+        description: "The invoice Number"
+        required: true
+        type: "string"
+      tags:
+        - Get Invoice
+      description: Get an invoice from the ledger
+      responses:
+        200:
+          description: Invoice retrieved
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+              result:
+                type: "string"
+
+  /getInvoiceHistory:
+    get:
+      operationId: getInvoiceHistory
+      parameters:
+      - name: "invoiceNo"
+        in: query
+        description: "The invoice Number"
+        required: true
+        type: "string"
+      tags:
+        - Get Invoice History
+      description: Get the history of an invoice from the ledger
+      responses:
+        200:
+          description: Invoice history retrieved
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+              result:
+                type: "string"
+
+  /getTransaction:
+    get:
+      operationId: getTransaction
+      parameters:
+      - name: "txId"
+        in: query
+        description: "The transaction Id"
+        required: true
+        type: "string"
+      tags:
+        - Get Transaction
+      description: Get the transaction from the ledger
+      responses:
+        200:
+          description: Transaction retrieved
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+              result:
+                type: "string"
+
+
+  /approveInvoice:
+    post:
+      tags:
+        - Approve Invoice
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: invoice
+          schema:
+            type: "object"
+            required:
+              - invoiceNo
+            properties:
+              invoiceNo:
+                type: "string"
+      description: Approve an invoice
+      responses:
+        200:
+          description: Invoice approved
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+              result:
+                type: "string"
+
+  /disputeInvoice:
+    post:
+      tags:
+        - Dispute Invoice
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: invoice
+          schema:
+            type: "object"
+            required:
+              - invoiceNo
+            properties:
+              invoiceNo:
+                type: "string"
+              message:
+                type: "string"
+      description: Dispute an invoice
+      responses:
+        200:
+          description: Invoice disputed
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+              result:
+                type: "string"
+
+  /health:
+    get:
+      operationId: getHealth
+      tags:
+        - Health
+      description: Get health status of app 
+      responses:
+        200:
+          description: Health check response
+          schema:
+            $ref: "#/definitions/HealthResponse"
+          examples:
+            application/json: { "success": "true", "message": "Server is up!", "status": "UP" }
+
+definitions:
+  ResponseBody:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      message:
+        type: "string"
+  HealthResponse:
+    allOf:
+      - $ref: '#/definitions/ResponseBody'
+      - properties:
+          status:
+            type: "string"
+  Invoice:
+    type: "object"
+    properties:
+      invoiceNo:
+        type: "string"
+      invoiceDate:
+        type: "string"
+      company:
+        $ref: "#/definitions/Company"
+      dueDate:
+        type: "string"
+      billTo:
+        $ref: "#/definitions/BillTo"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/LineItem"
+      total:
+        type: "number"
+      status:
+        type: "string"
+      message:
+        type: "string"
+  Company:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      address:
+        type: "string"
+      businessPhone:
+        type: "string"
+  BillTo:
+    type: "object"
+    properties:
+      contact:
+        type: "string"
+      companyName:
+        type: "string"
+      address:
+        type: "string"
+      businessPhone:
+        type: "string"
+  LineItem:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      quantity:
+        type: "integer"
+      unitPrice:
+        type: "number"
+      total:
+        type: "number"
+  Document:
+    type: "object"
+    properties:
+      Key:
+        type: "string"
+      Record:
+        $ref: "#/definitions/Invoice"
+  InvoicesResponse:
+    type: "object"
+    properties:
+      success:
+        type: "boolean"
+      result:
+        type: "array"
+        items:
+          $ref: "#/definitions/Document"
+  CreateInvoiceRequest:
+    type: "object"
+    properties:
+      invoiceNo:
+        type: "string"
+      invoiceName:
+        type: "string"
+      invoiceDate:
+        type: "string"
+      lob:
+        type: "string"
+      quantity:
+        type: "string"
+      price:
+        type: "string"
+  CreateInvoiceResponse:
+    type: "object"
+    properties:
+      success:
+        type: "string"
+      result:
+        type: "string"
+

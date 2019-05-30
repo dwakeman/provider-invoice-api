@@ -1,0 +1,10 @@
+node_modules
+node_modules_linux
+coverage
+server/localdev-config.json
+vcap-local*.json
+credentials.json
+localdev-config.json
+WALLETS/
+nodejs*.log
+.DS_Store

@@ -1,0 +1,53 @@
+{
+  "fabric-connections": {
+    "serviceDiscovery": {
+      "enabled": true,
+      "asLocalhost": false
+    },
+    "conn1": [
+      {
+        "channel": "mychannel",
+        "chaincodes": [
+          "fb-invoice-reconciliation"
+        ]
+      }
+    ]
+  },
+  "routes": [
+    {
+        "path": "/invoices",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/getInvoices"
+    },
+    {
+        "path": "/approveInvoice",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/approveInvoice"
+    },
+    {
+        "path": "/disputeInvoice",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/disputeInvoice"
+    },
+    {
+        "path": "/openInvoices",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/getOpenInvoices"
+    },
+    {
+        "path": "/getInvoice",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/getInvoice"
+    },
+    {
+        "path": "/getInvoiceHistory",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/getInvoiceHistory"
+    },
+    {
+        "path": "/getTransaction",
+        "fabric-connection": "conn1",
+        "modulePath": "routes/getTransaction"
+    }
+  ]
+}
